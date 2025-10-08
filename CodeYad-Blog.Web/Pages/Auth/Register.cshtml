@@ -1,0 +1,26 @@
+﻿@page
+@model CodeYad_Blog.Web.Pages.Auth.RegisterModel
+@{
+    Layout = "Shared/_AthLayout";
+    ViewData["Title"] = "ثبت نام ";
+}
+<form method="post">
+    <h1>@ViewData["Title"]</h1>
+    <div>
+        <input type="text" asp-for="UserName" placeholder="نام کاربری" required="" id="userfirstname" />
+        <span asp-validation-for="UserName" style="color:red"></span>
+    </div>
+    <div>
+        <input type="text" asp-for="FullName" placeholder="نام و نام خانوادگی" required="" id="userlastname" />
+        <span asp-validation-for="FullName" style="color:red"></span>
+    </div>
+    <div>
+        <input type="password" asp-for="Password" placeholder="کلمه عبور" required="" id="password" />
+        <span asp-validation-for="Password" style="color:red"></span>
+    </div>
+    <div>
+        <input type="submit" value="ثبت نام" />
+        
+        <a asp-page="Login">ثبت نام</a>
+    </div>
+</form>

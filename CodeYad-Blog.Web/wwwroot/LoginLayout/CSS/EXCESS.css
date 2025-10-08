@@ -1,0 +1,36 @@
+/* @font-face {
+    font-family: ;
+    src: url();
+} */
+/* p {
+  display: none;
+  background-color: yellow;
+  padding: 20px;
+}
+
+div:hover p {
+  display: block;
+} */
+
+div
+{
+    
+    margin-bottom: 30px;
+    height: 150px;
+}
+.c1{        
+    
+    position: fixed;
+    background-color: rgb(23, 105, 105);
+}
+.c2 
+{
+    
+    position: sticky;
+    top: 0px;
+  background-color: rgb(105, 23, 49);
+}
+.c3 {
+    height: 1000px;
+    background-color: rgb(126, 73, 121);
+}
