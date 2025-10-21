@@ -38,6 +38,9 @@ namespace CodeYad_Blog.DataLayer.Migrations
                     b.Property<string>("MetaTag")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Slug")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -68,6 +71,9 @@ namespace CodeYad_Blog.DataLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
@@ -75,6 +81,9 @@ namespace CodeYad_Blog.DataLayer.Migrations
                         .IsRequired()
                         .HasMaxLength(400)
                         .HasColumnType("nvarchar(400)");
+
+                    b.Property<int?>("SubCategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -90,6 +99,8 @@ namespace CodeYad_Blog.DataLayer.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("SubCategoryId");
 
                     b.HasIndex("UserId");
 
@@ -168,6 +179,11 @@ namespace CodeYad_Blog.DataLayer.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("CodeYad_Blog.DataLayer.Entities.Category", "SubCategory")
+                        .WithMany("SubPosts")
+                        .HasForeignKey("SubCategoryId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("CodeYad_Blog.DataLayer.Entities.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
@@ -175,6 +191,8 @@ namespace CodeYad_Blog.DataLayer.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+
+                    b.Navigation("SubCategory");
 
                     b.Navigation("User");
                 });
@@ -201,6 +219,8 @@ namespace CodeYad_Blog.DataLayer.Migrations
             modelBuilder.Entity("CodeYad_Blog.DataLayer.Entities.Category", b =>
                 {
                     b.Navigation("Posts");
+
+                    b.Navigation("SubPosts");
                 });
 
             modelBuilder.Entity("CodeYad_Blog.DataLayer.Entities.Post", b =>

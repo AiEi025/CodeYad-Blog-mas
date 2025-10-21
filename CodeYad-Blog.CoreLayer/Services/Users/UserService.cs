@@ -1,50 +1,61 @@
-﻿using CodeYad_Blog.CoreLayer.DTOs.Users;
+﻿using System;
+using System.Linq;
+using CodeYad_Blog.CoreLayer.DTOs.Users;
 using CodeYad_Blog.CoreLayer.Utilities;
 using CodeYad_Blog.DataLayer.Context;
 using CodeYad_Blog.DataLayer.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodeYad_Blog.CoreLayer.Services.Users
 {
     public class UserService : IUserService
     {
-        private readonly BlogContext _blogContext;
-        public UserService(BlogContext blogContext)
+        private readonly BlogContext _context;
+
+        public UserService(BlogContext context)
         {
-            _blogContext = blogContext;
+            _context = context;
         }
 
-        public OperationResult LoginUser(LoginUserDTO loginUserDTO)
+        public OperationResult RegisterUser(UserRegisterDto registerDto)
         {
-            var passhashed = loginUserDTO.Passsword.EncodeToMd5();
-            var Issuccess = _blogContext.Users.Any(p=>p.UserName== loginUserDTO.UserName && p.Password == passhashed);
-            if (!Issuccess)
-                return OperationResult.NotFound("مورد مورد نظر یافت نشد");
-            return OperationResult.Success();
-        }
+            var isUserNameExist = _context.Users.Any(u => u.UserName == registerDto.UserName);
 
-        public OperationResult RegisterUser(UserRegisterDTO RegisterDTO)
-        {
-            var IsUserNameExist = _blogContext.Users.Any(p=>p.UserName == RegisterDTO.UserName);
-            if (IsUserNameExist)
-               return OperationResult.Error("نام کاربری تکراری است");
+            if (isUserNameExist)
+                return OperationResult.Error("نام کاربری تکراری است");
 
-            var passwordhash = RegisterDTO.Password.EncodeToMd5();
-            _blogContext.Users.Add(new User
-            { 
-            FullName = RegisterDTO.FullName,
-            IsDelete = false,
-            UserName = RegisterDTO.UserName,
-            Role = UserRole.User,
-            CreationDate = DateTime.Now,
-            Password = passwordhash,
+            var passwordHash = registerDto.Password.EncodeToMd5();
+            _context.Users.Add(new User()
+            {
+                FullName = registerDto.Fullname,
+                IsDelete = false,
+                UserName = registerDto.UserName,
+                Role = UserRole.User,
+                CreationDate = DateTime.Now,
+                Password = passwordHash
             });
-            _blogContext.SaveChanges();
+            _context.SaveChanges();
             return OperationResult.Success();
+        }
+
+        public UserDto LoginUser(LoginUserDto loginDto)
+        {
+            var passwordHashed = loginDto.Password.EncodeToMd5();
+            var user = _context.Users
+                .FirstOrDefault(u => u.UserName == loginDto.UserName && u.Password == passwordHashed);
+
+            if (user == null)
+                return null;
+
+            var userDto = new UserDto()
+            {
+                FullName = user.FullName,
+                Password = user.Password,
+                Role = user.Role,
+                UserName = user.UserName,
+                RegisterDate = user.CreationDate,
+                UserId = user.Id
+            };
+            return userDto;
         }
     }
 }

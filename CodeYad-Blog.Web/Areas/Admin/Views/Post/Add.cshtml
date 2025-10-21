@@ -1,0 +1,55 @@
+﻿@using CodeYad_Blog.Web.Areas.Admin.Models.Posts
+@model CreatePostViewModel
+@{
+    ViewData["title"] = "افزودن دسته بندی";
+    ViewData["selected"] = "Category";
+    int counter = 1;
+}
+<section class="content-header">
+    <h1>
+        @ViewData["title"]
+    </h1>
+    <ol class="breadcrumb">
+        <li><a asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fa fa-dashboard"></i> خانه</a></li>
+        <li><a asp-area="Admin" asp-controller="Post" asp-action="Index">مقالات</a></li>
+        <li class="active">@ViewData["title"]</li>
+    </ol>
+</section>
+<section class="content">
+    <form class="box box-danger" method="post" asp-area="Admin" asp-controller="Category" asp-action="Add">
+        @* <input type="hidden" asp-for="ParentId" /> *@
+        <div class="box-body row">
+            <div class="col-md-6">
+                @Html.EditorFor(mbox => mbox.Title)
+            </div>
+            <div class="col-md-6">
+                @Html.EditorFor(mbox => mbox.Slug)
+
+            </div>
+            <div class="col-md-12">
+                @Html.EditorFor(mbox => mbox.Description)
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label asp-for="CategoryId"></label>
+                    <select asp-for="CategoryId" class="form-control"></select>
+                    <span asp-validation-for="CategoryId"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label asp-for="SubCategoryId"></label>
+                    <select asp-for="SubCategoryId" class="form-control"></select>
+                    <span asp-validation-for="SubCategoryId"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                @Html.EditorFor(mbox => mbox.ImageFile)
+            </div>
+            <input type="file">
+        </div>
+        <div class="box-footer">
+            <button class="btn btn-success" type="submit"> ثبت اطلاعات</button>
+        </div>
+    </form>
+</section>

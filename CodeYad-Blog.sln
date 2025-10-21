@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36414.22 d17.14
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeYad-Blog.Web", "CodeYad-Blog.Web\CodeYad-Blog.Web.csproj", "{E11EEC07-4E23-4197-95E3-7CA45EC7D3E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeYad-Blog.Web", "CodeYad-Blog.Web\CodeYad-Blog.Web.csproj", "{E11EEC07-4E23-4197-95E3-7CA45EC7D3E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeYad-Blog.DataLayer", "CodeYad-Blog.DataLayer\CodeYad-Blog.DataLayer.csproj", "{051858C8-B27E-4B83-8F71-981C131B5D58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeYad-Blog.DataLayer", "CodeYad-Blog.DataLayer\CodeYad-Blog.DataLayer.csproj", "{051858C8-B27E-4B83-8F71-981C131B5D58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeYad-Blog.CoreLayer", "CodeYad-Blog.CoreLayer\CodeYad-Blog.CoreLayer.csproj", "{188B6238-BF3C-42D3-96E0-84EC4D9E7FCD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeYad-Blog.CoreLayer", "CodeYad-Blog.CoreLayer\CodeYad-Blog.CoreLayer.csproj", "{188B6238-BF3C-42D3-96E0-84EC4D9E7FCD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

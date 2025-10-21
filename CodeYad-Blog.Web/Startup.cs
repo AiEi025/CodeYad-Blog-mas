@@ -1,5 +1,8 @@
+using CodeYad_Blog.CoreLayer.Services.Categories;
+using CodeYad_Blog.CoreLayer.Services.Posts;
 using CodeYad_Blog.CoreLayer.Services.Users;
 using CodeYad_Blog.DataLayer.Context;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,11 +30,27 @@ namespace CodeYad_Blog.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddControllersWithViews();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddTransient<IPostService, PostService>();
+
             services.AddDbContext<BlogContext>(option =>
             {
-                option.UseSqlServer(Configuration.GetConnectionString("Defualt"));
+                option.UseSqlServer(Configuration.GetConnectionString("Default"));
             });
-            services.AddScoped<IUserService, UserService>();
+
+            services.AddAuthentication(option =>
+            {
+                option.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                option.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                option.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie(option =>
+            {
+                option.LoginPath = "/Auth/Login";
+                option.LogoutPath = "/Auth/Logout";
+                option.ExpireTimeSpan = TimeSpan.FromDays(30);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,19 +72,17 @@ namespace CodeYad_Blog.Web
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
-            });
-            app.UseEndpoints(endpoints =>
-            {
                 endpoints.MapControllerRoute(
-                    name: "custom",
-                    pattern: "/CustomModel/OnGet",
-                    defaults: new { controller = "CustomModel" }
-                );
+                    name: "Default",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                    );
+
+                endpoints.MapRazorPages();
             });
         }
     }

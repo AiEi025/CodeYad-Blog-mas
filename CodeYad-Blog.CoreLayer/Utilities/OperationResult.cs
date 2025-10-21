@@ -1,64 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CodeYad_Blog.CoreLayer.Utilities
+﻿namespace CodeYad_Blog.CoreLayer.Utilities
 {
     public class OperationResult
     {
-        public string Messsage { get; set; }
+        public string Message { get; set; }
         public OperationResultStatus Status { get; set; }
+
+        #region Errors
         public static OperationResult Error()
         {
-            return new OperationResult
+            return new OperationResult()
             {
-                Messsage = "عملیات ناموفق",
-                Status = OperationResultStatus.Error
-            };
-        }
-        public static OperationResult Success()
-        {
-            return new OperationResult
-            {
-                Messsage = "عملیات موفق",
-                Status = OperationResultStatus.Success
-            };
-        }
-        public static OperationResult NotFound()
-        {
-            return new OperationResult
-            {
-                Messsage = "مورد پیدا نشد",
-                Status = OperationResultStatus.NotFound
+                Status = OperationResultStatus.Error,
+                Message = "عملیات ناموفق",
             };
         }
         public static OperationResult Error(string message)
         {
-            return new OperationResult
+            return new OperationResult()
             {
-                Messsage = message,
-                Status = OperationResultStatus.Error
+                Status = OperationResultStatus.Error,
+                Message = message,
+            };
+        }
+        #endregion
+
+        #region NotFound
+
+        public static OperationResult NotFound(string message)
+        {
+            return new OperationResult()
+            {
+                Status = OperationResultStatus.NotFound,
+                Message = message,
+            };
+        }
+        public static OperationResult NotFound()
+        {
+            return new OperationResult()
+            {
+                Status = OperationResultStatus.NotFound,
+                Message = "اطلاعات درخواستی یافت نشد",
+            };
+        }
+
+        #endregion
+
+        #region Succsess
+
+        public static OperationResult Success()
+        {
+            return new OperationResult()
+            {
+                Status = OperationResultStatus.Success,
+                Message = "عملیات با موفقیت انجام شد",
             };
         }
         public static OperationResult Success(string message)
         {
-            return new OperationResult
+            return new OperationResult()
             {
-                Messsage = message,
-                Status = OperationResultStatus.Success
+                Status = OperationResultStatus.Success,
+                Message = message,
             };
         }
-        public static OperationResult NotFound(string message)
-        {
-            return new OperationResult
-            {
-                Messsage = message,
-                Status = OperationResultStatus.NotFound
-            };
-        }
-
+        #endregion
     }
     public enum OperationResultStatus
     {

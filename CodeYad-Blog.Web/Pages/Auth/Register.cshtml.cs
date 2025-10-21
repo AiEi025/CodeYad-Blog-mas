@@ -1,8 +1,13 @@
-﻿using CodeYad_Blog.CoreLayer.Services.Users;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+using CodeYad_Blog.CoreLayer.DTOs.Users;
+using CodeYad_Blog.CoreLayer.Services.Users;
 using CodeYad_Blog.CoreLayer.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
 
 namespace CodeYad_Blog.Web.Pages.Auth
 {
@@ -23,35 +28,36 @@ namespace CodeYad_Blog.Web.Pages.Auth
         public string FullName { get; set; }
 
         [Display(Name = "کلمه عبور")]
-        [MinLength(6, ErrorMessage = "{0} باید بیشتر از 6 کاراکتر باشد")]
         [Required(ErrorMessage = "{0} را وارد کنید")]
-        
+        [MinLength(6, ErrorMessage = "{0} باید بیشتر از 5 کاراکتر باشد")]
         public string Password { get; set; }
+
         #endregion
 
         public RegisterModel(IUserService userService)
         {
             _userService = userService;
         }
+
         public void OnGet()
         {
-
         }
+
         public IActionResult OnPost()
         {
             if (ModelState.IsValid == false)
             {
                 return Page();
             }
-            var result = _userService.RegisterUser(new CoreLayer.DTOs.Users.UserRegisterDTO()
-            { 
-            UserName = UserName,
-            FullName = FullName,
-            Password = Password
+            var result = _userService.RegisterUser(new UserRegisterDto()
+            {
+                UserName = UserName,
+                Password = Password,
+                Fullname = FullName
             });
             if (result.Status == OperationResultStatus.Error)
             {
-                ModelState.AddModelError("UserName" ,result.Messsage);
+                ModelState.AddModelError("UserName", result.Message);
                 return Page();
             }
             return RedirectToPage("Login");
